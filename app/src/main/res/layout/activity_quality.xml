@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_151"
+    android:layout_height="@dimen/dp_174"
+    android:background="@drawable/selector_hot"
+    >
+    <ImageView
+        android:id="@+id/quality_image_time"
+        android:layout_width="@dimen/dp_131"
+        android:layout_height="@dimen/dp_102"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        />
+    <TextView
+        android:id="@+id/quality_title_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="text"
+        android:layout_below="@id/quality_image_time"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:textSize="@dimen/sp_12"
+        android:textColor="#666666"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginRight="@dimen/dp_10"></TextView>
+    <TextView
+        android:id="@+id/quality_price_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_below="@id/quality_title_item"
+        android:textColor="#ff0000"
+        android:text="text"
+        android:textSize="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_22"
+        android:layout_marginRight="@dimen/dp_10"
+        />
+
+
+
+</RelativeLayout>
