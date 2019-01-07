@@ -81,6 +81,7 @@ public class RetrofitManager<T> {
 
 
 
+
     public Map<String, RequestBody> generateRequestBody(Map<String,String> requestDataMap){
 
         HashMap<String, RequestBody> requestBodyHashMap = new HashMap<>();
@@ -149,6 +150,16 @@ public class RetrofitManager<T> {
             map=new HashMap<>();
         }
         mBaseApis.post(dataUrl,map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getObserver(listener));
+        return retrofitManager;
+    }
+    public RetrofitManager put(String dataUrl,Map<String,String> map,HttpListener listener){
+        if(map==null){
+            map=new HashMap<>();
+        }
+        mBaseApis.put(dataUrl,map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver(listener));

@@ -8,6 +8,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -16,6 +17,9 @@ import rx.Observable;
 
 public interface BaseApis<T> {
     //被观察者
+
+    @PUT
+    Observable<ResponseBody> put(@Url String url, @QueryMap Map<String, String> params);
 
     @DELETE
     Observable<ResponseBody> delete(@Url String url);

@@ -20,11 +20,10 @@ import butterknife.ButterKnife;
 public class BelowAdapter extends RecyclerView.Adapter<BelowAdapter.ViewHolder> {
 
     private Context context;
-    private List<BelowBean.ResultBean> mData;
+    private List<BelowBean.ResultBean> mData=new ArrayList<>();
 
     public BelowAdapter(Context context) {
         this.context = context;
-        mData=new ArrayList<>();
     }
 
     public void setDatsa(List<BelowBean.ResultBean> mData) {

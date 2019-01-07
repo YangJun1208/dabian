@@ -2,22 +2,20 @@ package com.bwei.dabian.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.bwei.dabian.R;
-import com.bwei.dabian.fragment.CircleFragment;
+import com.bwei.dabian.circle.fragment.CircleFragment;
 import com.bwei.dabian.fragment.FristPageFragment;
 import com.bwei.dabian.fragment.IndentFregment;
-import com.bwei.dabian.fragment.MyFregment;
-import com.bwei.dabian.fragment.ShoppingFregment;
+import com.bwei.dabian.mine.fragment.MyFregment;
+import com.bwei.dabian.shopping.fragment.ShoppingFregment;
 import com.bwei.dabian.utils.NoScrollViewPager;
 
 import java.util.ArrayList;

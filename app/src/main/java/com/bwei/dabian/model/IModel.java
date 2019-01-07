@@ -11,4 +11,6 @@ public interface IModel {
     void getRequest(String dataUrl,Class clazz,MyCallBack callBack);
 
     void deleteRequest(String dataUrl,Class clazz,MyCallBack callBack);
+
+    void putRequest(String dataUrl, Map<String, String> params, Class clazz, MyCallBack callBack);
 }

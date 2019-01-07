@@ -220,13 +220,6 @@ public class FristPageFragment extends Fragment implements View.OnClickListener,
                     linearLayout.setVisibility(View.INVISIBLE);
                 }else{
                     goods = editText_edit.getText().toString();
-                    scrollView.setVisibility(View.GONE);
-                    search_recycle.setVisibility(View.VISIBLE);
-                    imageView_none_goods.setVisibility(View.GONE);
-                    none_goods_textView.setVisibility(View.GONE);
-                    relativeLayout_hot.setVisibility(View.GONE);
-                    relativeLayout_purple.setVisibility(View.GONE);
-                    quality_show.setVisibility(View.GONE);
                     SearchGoods();
                     HotSearch(goods);
                     editText_edit.setText("");
@@ -272,16 +265,21 @@ public class FristPageFragment extends Fragment implements View.OnClickListener,
         aboveRecycle = new AboveRecycle(getContext());
         above_recycle.setAdapter(aboveRecycle);
         iPersenter.getRequest(Apis.TYPE_ONELIST_SHOW,AboveBean.class);
-        iPersenter.getRequest(String.format(Apis.TYPE_TWOLIST_SHOW,"1001002001"),BelowBean.class);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
+        below_recycle.setLayoutManager(linearLayoutManager);
+        belowAdapter = new BelowAdapter(getContext());
+        below_recycle.setAdapter(belowAdapter);
+        iPersenter.getRequest(String.format(Apis.TYPE_TWOLIST_SHOW,"1001002"),BelowBean.class);
+
         aboveRecycle.setOnClickListener(new AboveRecycle.OnClicksListener() {
             @Override
             public void onSuccess(String id) {
                 //两级列表的数据
               belowData(id);
             }
-
-
         });
+
     }
 
     private void belowData(String id) {
@@ -293,12 +291,15 @@ public class FristPageFragment extends Fragment implements View.OnClickListener,
         iPersenter.getRequest(String.format(Apis.TYPE_TWOLIST_SHOW,id),BelowBean.class);
         belowAdapter.setOnClickListeners(new BelowAdapter.OnClickListeners() {
             @Override
-            public void onSuccess(String id) {
+            public void onSuccess(String id){
                 //二级列表的数据展示
                 ShowData(id);
                 scrollView.setVisibility(View.GONE);
                 search_recycle.setVisibility(View.VISIBLE);
-                image_tab.setVisibility(View.INVISIBLE);
+                image_tab.setVisibility(View.GONE);
+                relativeLayout_hot.setVisibility(View.GONE);
+                relativeLayout_purple.setVisibility(View.GONE);
+                quality_show.setVisibility(View.GONE);
             }
         });
     }
@@ -337,6 +338,7 @@ public class FristPageFragment extends Fragment implements View.OnClickListener,
 
     //搜索出来的商品
     private void SearchGoods() {
+
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
         search_recycle.setLayoutManager(layoutManager);
@@ -352,12 +354,10 @@ public class FristPageFragment extends Fragment implements View.OnClickListener,
 
             @Override
             public void onLoadMore() {
-                mPage++;
                 HotSearch(goods);
             }
 
         });
-
         searchAdapter = new SearchAdapter(getContext());
         search_recycle.setAdapter(searchAdapter);
         HotSearch(goods);
@@ -387,7 +387,6 @@ public class FristPageFragment extends Fragment implements View.OnClickListener,
             public void onLoadMore() {
                 mPage++;
                 iPersenter.getRequest(String.format(Apis.TYPE_MORE_SHOW,quality_id,mPage),HotItemBean.class);
-
             }
         });
 
@@ -498,23 +497,35 @@ public class FristPageFragment extends Fragment implements View.OnClickListener,
             purple_item_recycle.refreshComplete();
         }else if(data instanceof SearchBean){
             SearchBean searchBean= (SearchBean) data;
-            if(searchBean.getResult().size()==0) {
-                scrollView.setVisibility(View.GONE);
-                imageView_none_goods.setVisibility(View.VISIBLE);
-                none_goods_textView.setVisibility(View.VISIBLE);
-            }else{
-                if (mPage == 1) {
-                    searchAdapter.setDatas(searchBean.getResult());
-                } else {
-                    searchAdapter.addDatas(searchBean.getResult());
+            if (mPage == 1) {
+                if(searchBean.getResult().size()==0){
+                    scrollView.setVisibility(View.GONE);
+                    imageView_none_goods.setVisibility(View.VISIBLE);
+                    none_goods_textView.setVisibility(View.VISIBLE);
+                }else{
+                    imageView_none_goods.setVisibility(View.GONE);
+                    none_goods_textView.setVisibility(View.GONE);
+                    scrollView.setVisibility(View.GONE);
+                    search_recycle.setVisibility(View.VISIBLE);
+                    relativeLayout_hot.setVisibility(View.GONE);
+                    relativeLayout_purple.setVisibility(View.GONE);
+                    quality_show.setVisibility(View.GONE);
+                    SearchGoods();
                 }
-                search_recycle.refreshComplete();
-                search_recycle.loadMoreComplete();
+                searchAdapter.setDatas(searchBean.getResult());
+            } else {
+                if(searchBean.getResult().size()==0) {
+                    Toast.makeText(getContext(), "没有数据", Toast.LENGTH_SHORT).show();
+                }
+                searchAdapter.addDatas(searchBean.getResult());
             }
-
+            mPage++;
+            search_recycle.refreshComplete();
+            search_recycle.loadMoreComplete();
         }else if(data instanceof AboveBean){
             AboveBean aboveBean= (AboveBean) data;
             aboveRecycle.setDatas(aboveBean.getResult());
+
         }else if(data instanceof BelowBean){
             BelowBean belowBean= (BelowBean) data;
             belowAdapter.setDatsa(belowBean.getResult());

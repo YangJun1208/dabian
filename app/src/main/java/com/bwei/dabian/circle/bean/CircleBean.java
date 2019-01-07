@@ -1,4 +1,4 @@
-package com.bwei.dabian.bean;
+package com.bwei.dabian.circle.bean;
 
 import java.util.List;
 

@@ -59,4 +59,20 @@ public class IMdelImpl implements IModel {
         });
     }
 
+    @Override
+    public void putRequest(String dataUrl, Map<String, String> params, final Class clazz, final MyCallBack callBack) {
+        RetrofitManager.getInstance().put(dataUrl,params,new RetrofitManager.HttpListener() {
+            @Override
+            public void onSuccess(String data) {
+                Object o = new Gson().fromJson(data, clazz);
+                callBack.CallBack(o);
+            }
+
+            @Override
+            public void onFail(String error) {
+                callBack.CallBack(error);
+            }
+        });
+    }
+
 }

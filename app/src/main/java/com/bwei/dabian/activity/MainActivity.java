@@ -17,8 +17,12 @@ import android.widget.Toast;
 import com.bwei.dabian.Apis;
 import com.bwei.dabian.R;
 import com.bwei.dabian.bean.LoginBean;
+import com.bwei.dabian.eventbus.Message;
 import com.bwei.dabian.persenter.IPersenterImpl;
 import com.bwei.dabian.view.IView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,14 +54,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,I
     private SharedPreferences.Editor editor;
     private String phone;
     private String pwd;
+    private String object;
 
     @Override
     protected void initData() {
         ButterKnife.bind(this);
         iPersenter = new IPersenterImpl(this);
+
+
+
         //记住密码
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
 
         boolean r_ischeck = sharedPreferences.getBoolean("r_ischeck", false);
         if (r_ischeck) {
@@ -98,6 +107,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,I
         return false;
     }
 
+
+
     @OnClick({R.id.login_register,R.id.login_eye,R.id.login_button,R.id.checkbox_login})
     @Override
     public void onClick(View v) {
@@ -110,6 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,I
                 phone = login_phone.getText().toString();
                 pwd = login_pwd.getText().toString();
                 loadData(phone, pwd);
+                sharedPreferences.edit().putString("pwd",pwd).commit();
                 editor.putString("phone", phone);
                 editor.putString("pwd", pwd);
                 editor.putBoolean("r_ischeck", true);
@@ -140,6 +152,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,I
                 startActivity(intent1);
                 int userId = loginBean.getResult().getUserId();
                 String sessionId = loginBean.getResult().getSessionId();
+                sharedPreferences.edit().putString("name",loginBean.getResult().getNickName()).commit();
+
                 sharedPreferences = getSharedPreferences("Header", MODE_PRIVATE);
                 sharedPreferences.edit().putString("userId",userId+"").putString("sessionId",sessionId).commit();
 
